@@ -1,0 +1,26 @@
+# Python cache/bytecode
+__pycache__/
+*.py[cod]
+
+# Virtualenvs and tooling
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environment files
+.env
+.env.*
+
+# OS/editor artifacts
+.DS_Store
+.idea/
+.vscode/
+
+# Runtime/generated local data
+data/
+storage/
+
+# Docker local files
+*.log

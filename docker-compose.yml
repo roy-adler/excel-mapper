@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: xlsx_mapper
+      POSTGRES_USER: xlsx_mapper
+      POSTGRES_PASSWORD: xlsx_mapper
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U xlsx_mapper -d xlsx_mapper"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      XLSX_MAPPER_SECRET_KEY: super-secret-change-me
+      XLSX_MAPPER_DATABASE_URL: postgresql+psycopg2://xlsx_mapper:xlsx_mapper@db:5432/xlsx_mapper
+      XLSX_MAPPER_STORAGE_DIR: /data
+      XLSX_MAPPER_SESSION_TTL_HOURS: 24
+    ports:
+      - "8080:8080"
+    volumes:
+      - xlsx_data:/data
+
+volumes:
+  postgres_data:
+  xlsx_data:
